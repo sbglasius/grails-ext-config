@@ -5,6 +5,7 @@ import org.grails.io.support.ClassPathResource
 import org.grails.io.support.Resource
 import org.springframework.context.EnvironmentAware
 import org.springframework.core.env.Environment
+import org.springframework.core.env.MapPropertySource
 
 class Application extends GrailsAutoConfiguration implements EnvironmentAware {
     static void main(String[] args) {
@@ -26,6 +27,9 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
             locations.reverse().each { location ->
                     Resource resource = new ClassPathResource(location.toString())
                     println resource.file
+                    def config = new ConfigSlurper(grails.util.Environment.current.name).parse(resource.URL)
+                    environment.propertySources.addFirst(new MapPropertySource(config.toString(), config))
+
 
             }
         }
