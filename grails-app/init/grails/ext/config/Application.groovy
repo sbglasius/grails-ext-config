@@ -1,38 +1,11 @@
 package grails.ext.config
+
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
-import org.grails.io.support.ClassPathResource
-import org.grails.io.support.Resource
-import org.springframework.context.EnvironmentAware
-import org.springframework.core.env.Environment
-import org.springframework.core.env.MapPropertySource
+import grails.plugins.externalconfig.ExternalConfig
 
-class Application extends GrailsAutoConfiguration implements EnvironmentAware {
+class Application extends GrailsAutoConfiguration implements ExternalConfig {
     static void main(String[] args) {
         GrailsApp.run(Application, args)
-    }
-
-    /**
-     * Set the {@code Environment} that this object runs in.
-     */
-    @Override
-    void setEnvironment(Environment environment) {
-        println environment
-
-        List locations = environment.getProperty('grails.config.locations', ArrayList) as List
-
-        if(locations) {
-            println locations
-
-            locations.reverse().each { location ->
-                    Resource resource = new ClassPathResource(location.toString())
-                    println resource.file
-                    def config = new ConfigSlurper(grails.util.Environment.current.name).parse(resource.URL)
-                    environment.propertySources.addFirst(new MapPropertySource(config.toString(), config))
-
-
-            }
-        }
-
     }
 }
