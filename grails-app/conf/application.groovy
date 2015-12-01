@@ -5,5 +5,5 @@ myapp {
     }
 }
 
-grails.config.locations = [SomeConfig]
+grails.config.locations = ['SomeConfig.groovy']
 

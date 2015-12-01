@@ -1,6 +1,8 @@
 package grails.ext.config
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
+import org.grails.io.support.ClassPathResource
+import org.grails.io.support.Resource
 import org.springframework.context.EnvironmentAware
 import org.springframework.core.env.Environment
 
@@ -20,10 +22,11 @@ class Application extends GrailsAutoConfiguration implements EnvironmentAware {
 
         if(locations) {
             println locations
+
             locations.reverse().each { location ->
-                if(location instanceof Class){
-                    println ClassLoader.getSystemResource(location)
-                }
+                    Resource resource = new ClassPathResource(location.toString())
+                    println resource.file
+
             }
         }
 
